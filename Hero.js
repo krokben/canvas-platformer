@@ -1,6 +1,7 @@
 class Hero {
-  constructor(ctx, input, x, y, xVel, yVel, width, height, jumping, color) {
+  constructor(ctx, frames, input, x, y, xVel, yVel, width, height, jumping, spritesheet) {
     this.ctx = ctx;
+    this.frames = frames;
     this.input = input;
     this.x = x;
     this.y = y;
@@ -9,7 +10,9 @@ class Hero {
     this.width = width;
     this.height = height;
     this.jumping = jumping;
-    this.color = color;
+    this.spritesheet = spritesheet;
+    this.cols = 8; // spritesheet cols
+    this.rows = 2; // spritesheet rows
   }
 
   init() {
@@ -50,9 +53,13 @@ class Hero {
   }
 
   render() {
-    this.ctx.fillStyle = this.color;
-    this.ctx.beginPath();
-    this.ctx.rect(this.x, this.y, this.width, this.height);
-    this.ctx.fill();
+    const spritesheet = new Image();
+    spritesheet.src = this.spritesheet;
+    const currentFrame = this.frames.current % this.cols;
+    const srcWidth = spritesheet.width / this.cols;
+    const srcHeight = spritesheet.height / this.rows;
+    const srcX = currentFrame * srcWidth;
+    const srcY = 0;
+    this.ctx.drawImage(spritesheet, srcX, srcY, srcWidth, srcHeight, this.x, this.y, srcWidth, srcHeight);
   }
 }

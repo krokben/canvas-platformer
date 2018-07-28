@@ -1,6 +1,7 @@
 class Game {
-  constructor(ctx, input, hero) {
+  constructor(ctx, frames, input, hero) {
     this.ctx = ctx;
+    this.frames = frames;
     this.input = input;
     this.hero = hero;
   }
@@ -14,6 +15,7 @@ class Game {
   }
 
   update() {
+    this.frames.update();
     this.hero.handleInput();
     this.render();
   }
@@ -40,8 +42,9 @@ class Game {
 
 window.onload = () => {
   const ctx = document.getElementById('canvas').getContext('2d');
+  const frames = new Frames();
   const input = new Input();
-  const hero = new Hero(ctx, input, 144, 0, 0, 0, 32, 32, true, '#ffffff');
-  const game = new Game(ctx, input, hero);
+  const hero = new Hero(ctx, frames, input, 144, 0, 0, 0, 32, 32, true, 'img/piskel.png');
+  const game = new Game(ctx, frames, input, hero);
   game.init();
 };
